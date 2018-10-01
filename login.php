@@ -10,9 +10,12 @@ session_start();
 </head>
 <body>
 <?php
+// som andra filen, anv. db.php så ni döljer information med .gitignore
 include 'db.php';
 $servername = "localhost";
 $dbname = "te16";
+// BRa att ni kontrollerar detta och visar inloggad sida.
+// testa att göra en logout knapp med session_destroy() 
 if(isset($_SESSION['id']))
 {
 	echo "Du är inloggad";
@@ -32,6 +35,7 @@ if(isset($_SESSION['id']))
 		</form>';
 	if (isset($_POST['delete'])) {
 		$statement = $dbh->prepare("DELETE FROM login WHERE id = :id");
+		// validera ID filter_var INT
 		$statement->bindParam(':id', $_SESSION['id']);
 		$statement->execute();
 		
@@ -44,6 +48,7 @@ elseif(isset($_POST['submit'])) // if($_POST['submit'] == "Logga in")
 {
 	if(isset($_POST['username']) && isset($_POST['password']))
 	{
+		// tips $filteredUsername som varnamn tex
 		$username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
 		$password = $_POST['password'];
 		$statement = $dbh->prepare("SELECT * FROM login WHERE login . username = :username");
@@ -51,6 +56,7 @@ elseif(isset($_POST['submit'])) // if($_POST['submit'] == "Logga in")
 		$statement->execute();
 		$row = $statement->fetch(PDO::FETCH_ASSOC);
 		//echo "<pre>" . print_r($row,1) . "</pre>";
+		// username behöver inte kontrolleras, ni har redan gjort det i WHERE SQL
 		if($username == $row['username']
 			&& password_verify($password, $row['password']))
 		{
