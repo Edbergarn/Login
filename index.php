@@ -47,6 +47,10 @@ $_SESSION = array();
 				<input type="password" name="password" id="password">
 			</p>
 			<p>
+				<label for="checkPass">Bekräfta lösenord:</label>
+				<input type="password" name="checkPassword" id="checkPassword">
+			</p>
+			<p>
 				<label for="newEmail">Email:</label>
 				<input type="text" name="email" id="email">
 			</p>
